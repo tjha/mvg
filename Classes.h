@@ -31,14 +31,18 @@ private:
 
 public:
     Image() : nx(0), ny(0) {}
-    int xsize(){ return nx; }s
+    Image(const std::string &img_file, int num_layers); // Image initialization
+    int xsize(){ return nx; }
     int ysize(){ return ny; }
-    Image(const std::string &img_file); // Image initialization
+    std::vector<Raster> get_layers() { return layers; }
 
-    //Requires: vector of slice objects to label
-    //Returns: 
-    Raster set_data(const std::vector<Slice> &slices);
-    Raster train(const std::vector<Raster> &rasters, const Raster &training_raster);
+    // Requires:  vector of slice objects to label
+    // Modifies:  Raster object with labels at provided 
+    //            locations and 0s eleswhere is added
+    //            to vector list layers
+    void set_training(const std::vector<Slice> &slices);
+    void set_testing(const std::vector<SLice> &slices);
+    void train(const std::vector<Raster> &rasters, const Raster &training_raster);
     
     /*
     friend ostream& operator<< (ostream &out, Image &im);
@@ -52,7 +56,21 @@ public:
 };
 
 class Raster {
-
+private:
+    std::vector<int> data;
+    int nx;
+    int ny;
+    bool train;
+    bool test;
+public:
+    Raster(): nx(0), ny(0) {}
+    Raster(int inx, int iny, bool train_in, bool test_in): nx(inx), ny(iny), train(train_in), test(test_in) {}
+    int xsize() { return nx; }
+    int ysize() { return ny; }
+    bool is_train() { return train; }
+    bool is_test() { return test; }
+    void set_data(const std::vector<Slice> &slices);
+    void set_data(const std:vector<int> &input_data);
 };
 
 struct Slice {
