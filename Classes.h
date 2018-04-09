@@ -64,7 +64,7 @@ private:
     bool test;
 public:
     Raster(): nx(0), ny(0) {}
-    Raster(int inx, int iny, bool train_in, bool test_in): nx(inx), ny(iny), train(train_in), test(test_in) {}
+    Raster(int inx, int iny, bool train_in, bool test_in): nx(inx), ny(iny), train(train_in), test(test_in) { }
     int xsize() { return nx; }
     int ysize() { return ny; }
     bool is_train() { return train; }
