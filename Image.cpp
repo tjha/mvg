@@ -318,6 +318,9 @@ using namespace std;
 
     } // endfor: iy
 
+    poBand = poDataset->GetRasterBand( 1 ); // the first channel.
+
+
 #ifdef DEBUG
     cout << "read_file: at 6"<<endl;
 #endif
@@ -414,3 +417,61 @@ using namespace std;
 
 
     }// end: Image::write_file
+
+    
+
+    //Set and train cropped file
+    void Image::set_train(const std::string &infile){
+        //Open file
+        // Add training Raster
+        //      With slices, go through reading
+        //      the raster and add class label
+        // 
+        //Set Classes raster
+        //Train
+        //Check how well it worked
+
+
+
+        FileOpenErrorException FileOpenError;
+
+        GDALDataset *poDataset;
+        GDALAllRegister();
+        char cname[infile.length()+10];
+        strcpy(cname, infile.c_str());
+        poDataset = (GDALDataset *) GDALOpen(cname, GA_ReadOnly );
+        if( poDataset == NULL ) throw FileOpenError;
+
+        //Get first raster
+        GDALRasterBand *poBand1;
+        poBand1 = poDataset->GetRasterBand( 1 ); // the first channel.
+        int nx = poBand1->GetXSize();
+        int ny = poBand1->GetYSize();
+
+        float *buf;
+        buf = (float *) CPLMalloc(sizeof(float)*nx);
+
+        //Get Second Raster
+        GDALRasterBand *poBand2;
+        poBand2 = poDataset->GetRasterBand( 2 ); // the first channel.
+        
+        //Get Third Raster
+        GDALRasterBand *poBand3;
+        poBand3 = poDataset->GetRasterBand( 3 ); // the first channel.
+
+
+
+        CPLFree(buf);
+        GDALClose(poDataset);
+
+    }
+
+
+
+
+    // Steps BreakDown:
+    // Work on 3 Raster JPEG image with 1 class
+    // Get it to work with 4 classes
+    // Work on full raster image work with 1 class
+    // Work with 4 classes
+    // Work N classes and M rasters

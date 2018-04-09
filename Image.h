@@ -76,9 +76,28 @@ public:
     
     void  read_file(const std::string &infile);
     void  write_file(const std::string &outfile);
+    void  set_train(const std::string &infile);
 
     
 };// end class Image
 
+
+// Raster Class
+class Raster {
+private:
+    bool data;
+    bool train;
+    bool test;
+
+public:
+};
+
+struct Slice {
+    vector<double> temp_data;
+    int start_x;
+    int start_y;
+    int dx;
+    int dy;
+};
 
 #endif

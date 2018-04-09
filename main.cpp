@@ -88,7 +88,7 @@ main(int argc, char* argv[])
   // 4. process the data:
   //Image output_image;
   try{
-      input_image.filter("threshhold",thresh);    
+      //input_image.filter("threshhold",thresh);    
   }// end-try
   catch (...){
     cerr << "Error filtering data"<<endl;
