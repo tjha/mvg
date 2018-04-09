@@ -66,7 +66,7 @@ private:
     
 public:
     Image() : nx(0), ny(0) {}
-    void filter(string filter_name, double param);
+    void filter(std::string filter_name, double param);
     int xsize(){ return nx; }
     int ysize(){ return ny; }
     // use default destructor
