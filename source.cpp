@@ -7,9 +7,18 @@
 //=========================================================
 
 #include <iostream>
+#include <vector>
 #include "Classes.h"
+
+using namespace std;
 
 int main(int argc, char* argv[]){
     
+    Image img("cropped.jpg", 3);
+    vector<Raster> layers = img.get_layers();
+    for(int i = 0; i < layers.size(); i++){
+        
+    }
+
     return 0;
 }

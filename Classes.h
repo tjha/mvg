@@ -34,14 +34,14 @@ public:
     Image(const std::string &img_file, int num_layers); // Image initialization
     int xsize(){ return nx; }
     int ysize(){ return ny; }
-    std::vector<Raster> get_layers() { return layers; }
+    const std::vector<Raster> &get_layers() { return layers; }
 
     // Requires:  vector of slice objects to label
     // Modifies:  Raster object with labels at provided 
     //            locations and 0s eleswhere is added
     //            to vector list layers
     void set_training(const std::vector<Slice> &slices);
-    void set_testing(const std::vector<SLice> &slices);
+    void set_testing(const std::vector<Slice> &slices);
     void train(const std::vector<Raster> &rasters, const Raster &training_raster);
     
     /*
@@ -50,7 +50,7 @@ public:
     
     void  read_file(const std::string &infile);
     void  write_file(const std::string &outfile);
-    void  set_train(const std::string &infile);
+    void  set_train(const std::string &infile);s
     */
 
 };
@@ -70,7 +70,7 @@ public:
     bool is_train() { return train; }
     bool is_test() { return test; }
     void set_data(const std::vector<Slice> &slices);
-    void set_data(const std:vector<int> &input_data);
+    void set_data(const std::vector<int> &input_data);
 };
 
 struct Slice {

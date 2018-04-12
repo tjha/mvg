@@ -27,11 +27,14 @@ Image::Image(const std::string &img_file, int num_layers){
     // Open File Data
     GDALDataset *poDataset;
     GDALAllRegister();
-    this->img_name = img_file;
-    poDataset = (GDALDataset *) GDALOpen(cname, GA_ReadOnly );
+    this->img_name = img_file;    
+    poDataset = (GDALDataset *) GDALOpen(img_file.c_str(), GA_ReadOnly );
     if( poDataset == NULL ) throw FileOpenError;
 
     GDALRasterBand *poBand;
+
+    int img_x;
+    int img_y;
 
     // Currently can take in rasters of different sizes
     for(int i = 1; i <= num_layers; i++){
@@ -40,10 +43,10 @@ Image::Image(const std::string &img_file, int num_layers){
         int ysize = poBand->GetYSize();
 
         Raster ras(xsize,ysize, false, false); //Create Raster
-        vector<int> data(xsize*ysize); //Raster data
+        std::vector<int> data(xsize*ysize); //Raster data
 
         // temporary place for one line of the image:
-        int buf = new int[xsize];
+        int *buf = new int[xsize];
 
         // fill the data vector:
         int pix=0;
@@ -61,25 +64,30 @@ Image::Image(const std::string &img_file, int num_layers){
         ras.set_data(data); //Set ras to hold data
         layers.push_back(ras);
         delete buf;
+
+        if(i == 1){
+            img_x = xsize;
+            img_y = ysize;
+        }
     }
 
     // Incorrectly stores last raster dimensions as image dimensions
-    this->nx = xsize;
-    this->ny = ysize;
+    this->nx = img_x;
+    this->ny = img_y;
     GDALClose(poDataset);
 }
 
 //Generate Raster data for training
 void Image::set_training(const std::vector<Slice> &slices){
-    Raster rast(nx, ny, true, false);
-    rast.set_data(slices);
+    Raster ras(nx, ny, true, false);
+    ras.set_data(slices);
     layers.push_back(ras);
 }
 
 //Generate Raster data for testing
 void Image::set_testing(const std::vector<Slice> &slices){
-    Raster rast(nx, ny, false, true);
-    rast.set_data(slices);
+    Raster ras(nx, ny, false, true);
+    ras.set_data(slices);
     layers.push_back(ras);
 }
 
@@ -89,7 +97,7 @@ void Raster::set_data(const std::vector<int> &input_data){
 }
 
 // Set data into raster object 
-void Raster::set_data(std::vector<Slice> &slices){
+void Raster::set_data(const std::vector<Slice> &slices){
     data.resize(nx * ny);
 
     // Go through all slices
@@ -100,7 +108,7 @@ void Raster::set_data(std::vector<Slice> &slices){
         // Loop through slice
         for(int iy = 0; iy < slices[i].dy; iy++){
             for(int ix = 0; ix < slices[i].dx; ix++){
-                data[nx*(y+iy) + (x + ix)] = slice[i].label; // Set slice
+                data[nx*(y+iy) + (x + ix)] = slices[i].label; // Set slice
             }
         }
 
