@@ -18,6 +18,9 @@
 #include "cpl_conv.h" // for CPLMalloc()
 #include "cpl_string.h"
 #include <ogr_spatialref.h>
+#include <Eigen/Core>
+#include <Eigen/LU>
+#include <Eigen/Dense>
 
 //Initialize Image object from provided image file
 Image::Image(const std::string &img_file, int num_layers){
@@ -78,17 +81,19 @@ Image::Image(const std::string &img_file, int num_layers){
 }
 
 //Generate Raster data for training
-void Image::set_training(const std::vector<Slice> &slices){
+Raster Image::set_training(const std::vector<Slice> &slices){
     Raster ras(nx, ny, true, false);
     ras.set_data(slices);
-    layers.push_back(ras);
+    return ras;
+    //layers.push_back(ras);
 }
 
 //Generate Raster data for testing
-void Image::set_testing(const std::vector<Slice> &slices){
+Raster Image::set_testing(const std::vector<Slice> &slices){
     Raster ras(nx, ny, false, true);
     ras.set_data(slices);
-    layers.push_back(ras);
+    return ras;
+    //layers.push_back(ras);
 }
 
 // Set data into raster object 
@@ -113,4 +118,9 @@ void Raster::set_data(const std::vector<Slice> &slices){
         }
 
     }
+}
+
+//Training 
+void Image::train(const std::vector<Raster> &rasters, const Raster &training_raster){
+    
 }

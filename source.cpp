@@ -15,6 +15,10 @@ using namespace std;
 int main(int argc, char* argv[]){
     
     Image img("cropped.jpg", 3);
+    
+
+/*
+
     vector<Slice> train;
     Slice slc = { 200, 300, 700, 700, 1};
     train.push_back(slc);
@@ -24,12 +28,16 @@ int main(int argc, char* argv[]){
 
     Raster rast = layers[3];
     vector<int> vec = rast.get_data();
+*/
+
+    /*
     for(int x = 0; x < rast.xsize(); x++){
         for(int y = 0; y < rast.ysize(); y++){
             cout << vec[y*rast.xsize() + x] << ' ';
         }
         cout << endl;
     }
+    */
 
     /*
     for(int i = 0; i < layers.size(); i++){

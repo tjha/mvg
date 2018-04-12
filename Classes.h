@@ -40,9 +40,10 @@ public:
     // Modifies:  Raster object with labels at provided 
     //            locations and 0s eleswhere is added
     //            to vector list layers
-    void set_training(const std::vector<Slice> &slices);
-    void set_testing(const std::vector<Slice> &slices);
+    Raster set_training(const std::vector<Slice> &slices);
+    Raster set_testing(const std::vector<Slice> &slices);
     void train(const std::vector<Raster> &rasters, const Raster &training_raster);
+    void push_back(const Raster &raster) { layers.push_back(raster); }
     
     /*
     friend ostream& operator<< (ostream &out, Image &im);
