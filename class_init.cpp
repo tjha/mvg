@@ -73,14 +73,14 @@ Image::Image(const std::string &img_file, int num_layers){
 void Image::set_training(const std::vector<Slice> &slices){
     Raster rast(nx, ny, true, false);
     rast.set_data(slices);
-    layesr.push_back(ras);
+    layers.push_back(ras);
 }
 
 //Generate Raster data for testing
 void Image::set_testing(const std::vector<Slice> &slices){
     Raster rast(nx, ny, false, true);
     rast.set_data(slices);
-    layesr.push_back(ras);
+    layers.push_back(ras);
 }
 
 // Set data into raster object 
