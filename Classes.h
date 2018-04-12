@@ -71,6 +71,7 @@ public:
     bool is_test() { return test; }
     void set_data(const std::vector<Slice> &slices);
     void set_data(const std::vector<int> &input_data);
+    const std::vector<int> &get_data(){ return data;} //Mainly for error checking for now
 };
 
 struct Slice {
