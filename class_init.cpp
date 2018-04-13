@@ -121,6 +121,51 @@ void Raster::set_data(const std::vector<Slice> &slices){
 }
 
 //Training 
+// Assumes that raster sizes are eqivalent
 void Image::train(const std::vector<Raster> &rasters, const Raster &training_raster){
+    //Go through and accumulate stats
+    // Need two passes at least , one for mean , one for covariance
+    //Go through each data raster
+    //Check if corresponds to training data
+        // if yes, then add to calculate mean
+
+    //Assert here if raster sizes are equivialent
+
+    std::vector<Stats> stats(rasters.size());
+    for (int i = 0; i < stats.size(); i++){
+        stats[i].means.resize(rasters.size());
+        stats[i].sums.resize(rasters.size());
+        stats[i].n.resize(rasters.size());
+    }
     
+    const std::vector<int> train = training_raster.get_data();
+
+    for(int i = 0; i < rasters.size(); i++){ //For each raster in data
+        int *buf = new int[rasters[i].xsize()]; //Temporary line data
+        const std::vector<int> vec = rasters[i].get_data();
+
+        //Go through each line of data
+        for(int iy=0; iy < rasters[i].ysize();++iy){
+            for(int ix=0; ix < rasters.xsize(); ++ix) {
+                int cls = train[iy*training_raster.xsize() + ix];
+                //If training_raster is not 0,
+                // Set corresponding raster mean 
+                if( cls != 0){
+                    stats.sums[cls] += vec[iy*rasters[i].ysize() + ix];
+                    stats.n[cls] += 1;
+                }
+
+            }//endfor: ix
+
+        } // endfor: iy
+
+        //Set means
+        for(int p = 0; p < stats.means.size(); p++){
+            stats[i].means[p] = (long double)stats[i].sums[p] / (long double)stats[i].n[p];
+        }
+
+    }
+
+    //Loop through again to calculate covariance
+        
 }

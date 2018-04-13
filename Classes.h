@@ -56,6 +56,17 @@ public:
 
 };
 
+//Stats to create a k-dimensional Guassian PDF
+//for each classification.
+// Likeley going to be a nested struct in image
+// private
+struct Stats {
+    std::vector<double> means;
+    std::vector<long double> sums;
+    std::vector<int> n;
+    std::vector<double> z;
+};
+
 class Raster {
 private:
     std::vector<int> data;
